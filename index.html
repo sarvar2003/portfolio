@@ -7,179 +7,258 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ── Reset ──────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Tokens ─────────────────────────────────────────── */
 :root {
-  /* Python / Monokai-inspired palette */
-  --bg0: #1A1A2E;
-  --bg1: #16213E;
-  --bg2: #0F3460;
-  --bg3: #1B2A4A;
-  --border: rgba(255,215,0,0.12);
-  --border-hover: rgba(255,215,0,0.35);
-  --text: #E8EAF0;
-  --text-mid: #9AA5BE;
-  --text-dim: #4A5568;
-  --yellow: #FFD700;   /* Python logo yellow */
-  --blue: #4B8BBE;     /* Python logo blue */
-  --blue-light: #78B4E0;
-  --green: #6EC95D;    /* strings */
-  --purple: #C792EA;   /* keywords */
-  --pink: #FF6B9D;     /* decorators */
-  --orange: #FF8C42;   /* numbers */
-  --red: #FF5370;
-  --comment: #546E7A;
+  --bg0: #1A1A2E; --bg1: #16213E; --bg2: #0F3460; --bg3: #1B2A4A;
+  --border: rgba(255,215,0,0.12); --border-hover: rgba(255,215,0,0.35);
+  --text: #E8EAF0; --text-mid: #9AA5BE; --text-dim: #4A5568;
+  --yellow: #FFD700; --blue: #4B8BBE; --blue-light: #78B4E0;
+  --green: #6EC95D; --purple: #C792EA; --pink: #FF6B9D;
+  --orange: #FF8C42; --red: #FF5370; --comment: #546E7A;
   --yellow-dim: rgba(255,215,0,0.07);
+  --side: 20px;         /* reduced side padding */
+  --max-w: 1000px;      /* slightly wider max */
+  --section-py: 64px;
 }
 
+/* ── Base ───────────────────────────────────────────── */
 html { scroll-behavior: smooth; }
 body { font-family: 'Space Grotesk', sans-serif; background: var(--bg0); color: var(--text); font-size: 15px; line-height: 1.6; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg0); }
 ::-webkit-scrollbar-thumb { background: var(--bg2); border-radius: 3px; }
 
-/* NAV */
+/* ── Nav ────────────────────────────────────────────── */
 nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(26,26,46,0.92); backdrop-filter: blur(16px);
+  background: rgba(26,26,46,0.93); backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  padding: 0 40px; display: flex; align-items: center; justify-content: space-between;
-  height: 56px;
+  padding: 0 var(--side);
+  display: flex; align-items: center; justify-content: space-between;
+  height: 54px;
 }
-.nav-logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 0; }
-.logo-py { color: var(--blue); }
-.logo-thon { color: var(--yellow); }
+.nav-logo { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; display: flex; align-items: center; flex-shrink: 0; }
+.logo-py { color: var(--blue); } .logo-thon { color: var(--yellow); }
 .logo-sep { color: var(--comment); margin: 0 4px; }
 .logo-name { color: var(--text); font-weight: 400; }
-.nav-logo .cursor { display: inline-block; width: 7px; height: 14px; background: var(--yellow); margin-left: 2px; animation: blink 1.1s step-end infinite; }
+.nav-logo .cursor { display: inline-block; width: 7px; height: 13px; background: var(--yellow); margin-left: 2px; animation: blink 1.1s step-end infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-.nav-right { display: flex; align-items: center; gap: 20px; }
-.nav-links { display: flex; gap: 18px; }
-.nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-links { display: flex; gap: 16px; }
+.nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-mid); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
 .nav-links a:hover { color: var(--yellow); }
 
-.btn-cv {
-  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-  background: transparent; color: var(--yellow);
-  border: 1px solid rgba(255,215,0,0.4); padding: 7px 14px; border-radius: 5px;
-  text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-  transition: all 0.2s; white-space: nowrap;
-}
+.btn-cv { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; background: transparent; color: var(--yellow); border: 1px solid rgba(255,215,0,0.4); padding: 6px 12px; border-radius: 5px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
 .btn-cv:hover { background: var(--yellow-dim); border-color: var(--yellow); }
 
-/* MAIN */
-main { max-width: 900px; margin: 0 auto; padding: 0 32px; }
-section { padding: 76px 0; border-bottom: 1px solid var(--border); }
+/* ── Layout ─────────────────────────────────────────── */
+main { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--side); }
+section { padding: var(--section-py) 0; border-bottom: 1px solid var(--border); }
 section:last-child { border-bottom: none; }
 
 .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--comment); margin-bottom: 4px; }
-.section-label::before { content: '# '; color: var(--comment); }
-.section-title { font-size: 30px; font-weight: 600; color: var(--text); margin-bottom: 32px; letter-spacing: -0.3px; }
-.kw { color: var(--purple); } .fn { color: var(--blue-light); } .paren { color: var(--comment); } .self { color: var(--orange); }
+.section-label::before { content: '# '; }
+.section-title { font-size: 28px; font-weight: 600; color: var(--text); margin-bottom: 28px; letter-spacing: -0.3px; }
+.kw { color: var(--purple); } .fn { color: var(--blue-light); }
+.paren { color: var(--comment); } .self { color: var(--orange); }
 
-/* HERO */
-#hero { padding-top: 76px; padding-bottom: 76px; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; border-bottom: 1px solid var(--border); }
-.hero-terminal { background: var(--bg1); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; width: 240px; flex-shrink: 0; }
+/* ── Hero ───────────────────────────────────────────── */
+#hero {
+  padding-top: var(--section-py); padding-bottom: var(--section-py);
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 40px; align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.hero-terminal { background: var(--bg1); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; width: 230px; flex-shrink: 0; }
 .terminal-bar { background: var(--bg2); padding: 9px 14px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--border); }
 .terminal-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-mid); margin-left: 4px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; }
 .dot.r { background: var(--red); } .dot.y { background: var(--yellow); } .dot.g { background: var(--green); }
-.terminal-body { padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.85; }
-.py-comment { color: var(--comment); }
-.py-kw { color: var(--purple); }
-.py-fn { color: var(--blue-light); }
-.py-str { color: var(--green); }
-.py-num { color: var(--orange); }
-.py-bool { color: var(--orange); }
-.py-dec { color: var(--pink); }
-.py-self { color: var(--orange); }
-.py-prompt { color: var(--yellow); }
+.terminal-body { padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.85; }
+.py-comment { color: var(--comment); } .py-kw { color: var(--purple); } .py-fn { color: var(--blue-light); }
+.py-str { color: var(--green); } .py-num { color: var(--orange); } .py-bool { color: var(--orange); }
+.py-dec { color: var(--pink); } .py-prompt { color: var(--yellow); }
 
-.hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--yellow); background: var(--yellow-dim); border: 1px solid rgba(255,215,0,0.2); padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
-.hero-name { font-size: 48px; font-weight: 600; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 6px; }
+.hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--yellow); background: var(--yellow-dim); border: 1px solid rgba(255,215,0,0.2); padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 18px; }
+.hero-name { font-size: 46px; font-weight: 600; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 6px; }
 .hero-name .last { color: var(--yellow); }
-.hero-role { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--comment); margin-bottom: 20px; }
+.hero-role { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--comment); margin-bottom: 18px; }
 .hero-role .arrow { color: var(--pink); }
-.hero-desc { font-size: 15px; color: var(--text-mid); max-width: 400px; line-height: 1.75; margin-bottom: 28px; }
+.hero-desc { font-size: 14px; color: var(--text-mid); max-width: 440px; line-height: 1.75; margin-bottom: 26px; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn-primary { background: var(--blue); color: #fff; border: none; padding: 10px 22px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; text-decoration: none; display: inline-block; }
+.btn-primary { background: var(--blue); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; text-decoration: none; display: inline-block; }
 .btn-primary:hover { background: var(--blue-light); }
-.btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border-hover); padding: 10px 22px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+.btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border-hover); padding: 10px 20px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
 .btn-ghost:hover { color: var(--yellow); border-color: var(--yellow); }
 
-/* ABOUT */
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+/* ── About ──────────────────────────────────────────── */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
 .about-text { font-size: 14px; color: var(--text-mid); line-height: 1.8; }
-.about-text p + p { margin-top: 14px; }
-.about-stats { display: grid; gap: 12px; }
-.stat-card { background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; transition: border-color 0.2s; }
+.about-text p + p { margin-top: 12px; }
+.about-stats { display: grid; gap: 10px; }
+.stat-card { background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; transition: border-color 0.2s; }
 .stat-card:hover { border-color: var(--border-hover); }
-.stat-icon { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--blue); }
-.stat-num { font-size: 22px; font-weight: 600; color: var(--text); line-height: 1; }
+.stat-icon { font-size: 15px; }
+.stat-num { font-size: 20px; font-weight: 600; color: var(--text); line-height: 1; }
 .stat-lbl { font-size: 11px; color: var(--text-dim); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
 
-/* SKILLS */
-.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.skill-group { background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; padding: 18px; transition: border-color 0.2s; }
+/* ── Skills ─────────────────────────────────────────── */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.skill-group { background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; padding: 16px; transition: border-color 0.2s; }
 .skill-group:hover { border-color: var(--border-hover); }
 .skill-group.wide { grid-column: span 3; }
-.sg-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.sg-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 .sg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 .sg-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; }
 .skill-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-mid); background: var(--bg0); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; margin: 3px 3px 3px 0; transition: all 0.15s; }
 .skill-tag:hover { border-color: var(--blue); color: var(--blue-light); }
 
-/* PROJECTS */
-.projects-list { display: grid; gap: 14px; }
-.project-card { background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; padding: 24px 26px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; transition: border-color 0.2s; cursor: pointer; position: relative; overflow: hidden; }
+/* ── Projects ───────────────────────────────────────── */
+.projects-list { display: grid; gap: 12px; }
+.project-card { background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; transition: border-color 0.2s; cursor: pointer; position: relative; overflow: hidden; }
 .project-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--blue); opacity: 0; transition: opacity 0.2s; }
 .project-card:hover { border-color: var(--border-hover); }
 .project-card:hover::before { opacity: 1; }
-.p-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.p-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
 .p-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--comment); }
 .p-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 3px; }
 .p-status.live { background: rgba(110,201,93,0.1); color: var(--green); border: 1px solid rgba(110,201,93,0.25); }
 .p-status.oss { background: rgba(199,146,234,0.1); color: var(--purple); border: 1px solid rgba(199,146,234,0.2); }
-.p-title { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-.p-desc { font-size: 13px; color: var(--text-mid); line-height: 1.7; margin-bottom: 10px; }
-.p-bullets { list-style: none; margin-bottom: 14px; }
-.p-bullets li { font-size: 13px; color: var(--text-mid); line-height: 1.7; padding-left: 16px; position: relative; margin-bottom: 2px; }
+.p-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+.p-desc { font-size: 13px; color: var(--text-mid); line-height: 1.65; margin-bottom: 10px; }
+.p-bullets { list-style: none; margin-bottom: 12px; }
+.p-bullets li { font-size: 13px; color: var(--text-mid); line-height: 1.65; padding-left: 16px; position: relative; margin-bottom: 2px; }
 .p-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--blue); }
 .p-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .p-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--comment); background: var(--bg0); border: 1px solid var(--border); border-radius: 3px; padding: 2px 7px; }
 .p-arrow { color: var(--comment); font-size: 16px; transition: color 0.2s, transform 0.2s; margin-top: 2px; }
 .project-card:hover .p-arrow { color: var(--blue-light); transform: translate(2px,-2px); }
 
-/* EXPERIENCE */
-.exp-item { display: grid; grid-template-columns: 130px 1fr; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--border); }
+/* ── Experience ─────────────────────────────────────── */
+.timeline { display: grid; gap: 0; }
+.exp-item { display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); }
 .exp-item:last-child { border-bottom: none; }
-.exp-year { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--comment); padding-top: 4px; }
-.exp-role { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-.exp-co { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--blue-light); margin-bottom: 12px; }
+.exp-year { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--comment); padding-top: 3px; line-height: 1.6; }
+.exp-role { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.exp-co { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--blue-light); margin-bottom: 10px; }
 .exp-co .at { color: var(--pink); }
 .exp-bullets { list-style: none; }
-.exp-bullets li { font-size: 13px; color: var(--text-mid); line-height: 1.75; padding-left: 16px; position: relative; margin-bottom: 6px; }
+.exp-bullets li { font-size: 13px; color: var(--text-mid); line-height: 1.75; padding-left: 16px; position: relative; margin-bottom: 5px; }
+.exp-bullets li:last-child { margin-bottom: 0; }
 .exp-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--blue); font-size: 15px; }
 
-/* CONTACT */
+/* ── Education ──────────────────────────────────────── */
+.edu-card { background: var(--bg1); border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; transition: border-color 0.2s; }
+.edu-card:hover { border-color: var(--border-hover); }
+.edu-degree { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.edu-school { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--blue-light); margin-bottom: 10px; }
+.edu-school .at { color: var(--pink); }
+.edu-dates { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--comment); margin-bottom: 12px; }
+.edu-detail { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+.edu-gpa { text-align: right; flex-shrink: 0; }
+.gpa-num { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; color: var(--yellow); line-height: 1; }
+.gpa-lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--comment); margin-top: 3px; }
+
+/* ── Awards ─────────────────────────────────────────── */
+.awards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.award-card { background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; transition: border-color 0.2s; }
+.award-card:hover { border-color: var(--border-hover); }
+.award-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.award-title { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 4px; }
+.award-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--comment); line-height: 1.5; }
+
+/* ── Contact ────────────────────────────────────────── */
 #contact { border-bottom: none; }
-.contact-box { background: var(--bg1); border: 1px solid var(--border); border-radius: 12px; padding: 50px; text-align: center; position: relative; overflow: hidden; }
+.contact-box { background: var(--bg1); border: 1px solid var(--border); border-radius: 12px; padding: 48px 32px; text-align: center; position: relative; overflow: hidden; }
 .contact-box::before { content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 300px; height: 120px; background: radial-gradient(ellipse, rgba(75,139,190,0.1) 0%, transparent 70%); pointer-events: none; }
-.contact-box .section-title { font-size: 26px; margin-bottom: 10px; }
-.contact-sub { font-size: 14px; color: var(--text-mid); margin-bottom: 30px; }
-.contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-.c-link { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 10px 20px; border-radius: 6px; text-decoration: none; border: 1px solid var(--border-hover); color: var(--text-mid); transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.contact-box .section-title { font-size: 24px; margin-bottom: 8px; }
+.contact-sub { font-size: 14px; color: var(--text-mid); margin-bottom: 28px; }
+.contact-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.c-link { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 10px 18px; border-radius: 6px; text-decoration: none; border: 1px solid var(--border-hover); color: var(--text-mid); transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
 .c-link:hover { color: var(--blue-light); border-color: var(--blue); background: rgba(75,139,190,0.08); }
 .c-link.primary { background: var(--blue); color: #fff; border-color: var(--blue); font-weight: 600; }
 .c-link.primary:hover { background: var(--blue-light); border-color: var(--blue-light); color: #fff; }
 
-footer { text-align: center; padding: 24px 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--comment); }
+/* ── Footer ─────────────────────────────────────────── */
+footer { text-align: center; padding: 22px var(--side); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--comment); }
 footer .py { color: var(--blue); }
+
+/* ── Mobile hamburger ───────────────────────────────── */
+.hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; border: none; background: none; }
+.hamburger span { display: block; width: 20px; height: 2px; background: var(--text-mid); border-radius: 2px; transition: all 0.25s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed; top: 54px; left: 0; right: 0; z-index: 99;
+  background: rgba(22,33,62,0.98); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  flex-direction: column; padding: 20px var(--side) 24px;
+  gap: 0;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-mid); text-decoration: none; padding: 12px 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--yellow); }
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root { --side: 16px; --section-py: 48px; }
+
+  /* Nav: hide links, show hamburger */
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .btn-cv { padding: 5px 10px; font-size: 10px; }
+
+  /* Hero: stack vertically */
+  #hero { grid-template-columns: 1fr; gap: 28px; }
+  .hero-terminal { width: 100%; max-width: 340px; }
+  .hero-name { font-size: 36px; }
+
+  /* About: stack */
+  .about-grid { grid-template-columns: 1fr; gap: 24px; }
+
+  /* Skills: 2 col, wide still spans all */
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .skill-group.wide { grid-column: span 2; }
+
+  /* Experience timeline: tighter column */
+  .exp-item { grid-template-columns: 90px 1fr; gap: 14px; }
+
+  /* Education card: stack */
+  .edu-card { grid-template-columns: 1fr; gap: 12px; }
+  .edu-gpa { text-align: left; display: flex; align-items: center; gap: 10px; }
+  .gpa-num { font-size: 24px; }
+
+  /* Awards: single column */
+  .awards-grid { grid-template-columns: 1fr; }
+
+  /* Contact */
+  .contact-box { padding: 32px 20px; }
+
+  .section-title { font-size: 24px; }
+}
+
+@media (max-width: 480px) {
+  :root { --side: 12px; }
+  .hero-name { font-size: 30px; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .skill-group.wide { grid-column: span 1; }
+  .exp-item { grid-template-columns: 1fr; gap: 4px; }
+  .exp-year { padding-top: 0; }
+  .contact-links { flex-direction: column; align-items: stretch; }
+  .c-link { justify-content: center; }
+}
 </style>
 </head>
 <body>
 
+<!-- ── Nav ──────────────────────────────────────────── -->
 <nav>
   <div class="nav-logo">
     <span class="logo-py">Py</span><span class="logo-thon">thon</span>
@@ -193,15 +272,32 @@ footer .py { color: var(--blue); }
       <a href="#skills">skills</a>
       <a href="#projects">projects</a>
       <a href="#experience">exp</a>
+      <a href="#education">edu</a>
+      <a href="#awards">awards</a>
       <a href="#contact">contact</a>
     </div>
-    <a href="CV_Sarvarbek_Juraev.pdf" download class="btn-cv">↓ download cv</a>
+    <a href="CV_Sarvarbek_Juraev.pdf" download class="btn-cv">↓ cv</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">about</a>
+  <a href="#skills" onclick="closeMenu()">skills</a>
+  <a href="#projects" onclick="closeMenu()">projects</a>
+  <a href="#experience" onclick="closeMenu()">experience</a>
+  <a href="#education" onclick="closeMenu()">education</a>
+  <a href="#awards" onclick="closeMenu()">awards</a>
+  <a href="#contact" onclick="closeMenu()">contact</a>
+  <a href="CV_Sarvarbek_Juraev.pdf" download onclick="closeMenu()">↓ download cv</a>
+</div>
+
 <main>
 
-<!-- HERO -->
+<!-- ── Hero ─────────────────────────────────────────── -->
 <section id="hero">
   <div>
     <div class="hero-tag">open to work · Warsaw, Poland</div>
@@ -223,102 +319,63 @@ footer .py { color: var(--blue); }
       <div><span class="py-kw">class</span> <span class="py-fn">Engineer</span>:</div>
       <div>&nbsp;&nbsp;name: <span class="py-str">"Sarvarbek"</span></div>
       <div>&nbsp;&nbsp;stack: <span class="py-str">"Python"</span></div>
-      <div>&nbsp;&nbsp;exp: <span class="py-num">2</span></div>
+      <div>&nbsp;&nbsp;gpa: <span class="py-num">3.99</span></div>
       <div>&nbsp;&nbsp;open: <span class="py-bool">True</span></div>
       <br>
       <div><span class="py-comment"># Ready to hire</span></div>
       <div><span class="py-fn">hire</span>(sarvarbek)</div>
-      <div><span class="py-prompt">>>> </span><span class="py-str">✓ Accepted</span></div>
+      <div><span class="py-prompt">&gt;&gt;&gt; </span><span class="py-str">&#10003; Accepted</span></div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ── About ─────────────────────────────────────────── -->
 <section id="about">
   <p class="section-label">about me</p>
-  <h2 class="section-title">
-    <span class="kw">def</span> <span class="fn">about</span><span class="paren">(<span class="self">self</span>):</span>
-  </h2>
+  <h2 class="section-title"><span class="kw">def</span> <span class="fn">about</span><span class="paren">(<span class="self">self</span>):</span></h2>
   <div class="about-grid">
     <div class="about-text">
       <p>I'm a backend engineer focused on building reliable, high-performance systems using Python and its ecosystem. I care deeply about clean architecture, efficient database design, and APIs that other developers love to use.</p>
-      <p>Currently completing my B.Sc. in Computer Science at Vistula University, Warsaw. I've competed in Google Kickstart globally and reached the national finals of the Collegiate Olympics in Informatics in Uzbekistan.</p>
+      <p>I graduated from Vistula University with a B.Sc. in Computer Science, achieving a 3.99 GPA. I've competed in Google Kickstart globally and reached the national finals of the Collegiate Olympics in Informatics in Uzbekistan.</p>
     </div>
     <div class="about-stats">
-      <div class="stat-card">
-        <div class="stat-icon">🐍</div>
-        <div><div class="stat-num">2+</div><div class="stat-lbl">years professional exp</div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">⚙️</div>
-        <div><div class="stat-num">200K</div><div class="stat-lbl">concurrent users served</div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">⚡</div>
-        <div><div class="stat-num">50%</div><div class="stat-lbl">CI/CD runtime cut</div></div>
-      </div>
+      <div class="stat-card"><div class="stat-icon">🐍</div><div><div class="stat-num">2+</div><div class="stat-lbl">years professional exp</div></div></div>
+      <div class="stat-card"><div class="stat-icon">⚙️</div><div><div class="stat-num">200K</div><div class="stat-lbl">concurrent users served</div></div></div>
+      <div class="stat-card"><div class="stat-icon">⚡</div><div><div class="stat-num">50%</div><div class="stat-lbl">CI/CD runtime cut</div></div></div>
     </div>
   </div>
 </section>
 
-<!-- SKILLS -->
+<!-- ── Skills ────────────────────────────────────────── -->
 <section id="skills">
   <p class="section-label">technical skills</p>
-  <h2 class="section-title">
-    <span class="kw">import</span> <span class="fn">skills</span>
-  </h2>
+  <h2 class="section-title"><span class="kw">import</span> <span class="fn">skills</span></h2>
   <div class="skills-grid">
     <div class="skill-group">
-      <div class="sg-header">
-        <div class="sg-dot" style="background:var(--blue)"></div>
-        <span class="sg-title" style="color:var(--blue-light)">Languages</span>
-      </div>
-      <span class="skill-tag">Python</span>
-      <span class="skill-tag">JavaScript</span>
-      <span class="skill-tag">Golang</span>
+      <div class="sg-header"><div class="sg-dot" style="background:var(--blue)"></div><span class="sg-title" style="color:var(--blue-light)">Languages</span></div>
+      <span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Golang</span>
     </div>
     <div class="skill-group">
-      <div class="sg-header">
-        <div class="sg-dot" style="background:var(--purple)"></div>
-        <span class="sg-title" style="color:var(--purple)">Frameworks</span>
-      </div>
-      <span class="skill-tag">Django</span>
-      <span class="skill-tag">Flask</span>
-      <span class="skill-tag">ReactJS</span>
-      <span class="skill-tag">VueJS</span>
+      <div class="sg-header"><div class="sg-dot" style="background:var(--purple)"></div><span class="sg-title" style="color:var(--purple)">Frameworks</span></div>
+      <span class="skill-tag">Django</span><span class="skill-tag">Flask</span><span class="skill-tag">ReactJS</span><span class="skill-tag">VueJS</span>
     </div>
     <div class="skill-group">
-      <div class="sg-header">
-        <div class="sg-dot" style="background:var(--green)"></div>
-        <span class="sg-title" style="color:var(--green)">Databases</span>
-      </div>
-      <span class="skill-tag">PostgreSQL</span>
-      <span class="skill-tag">MySQL</span>
-      <span class="skill-tag">Redis</span>
+      <div class="sg-header"><div class="sg-dot" style="background:var(--green)"></div><span class="sg-title" style="color:var(--green)">Databases</span></div>
+      <span class="skill-tag">PostgreSQL</span><span class="skill-tag">MySQL</span><span class="skill-tag">Redis</span>
     </div>
     <div class="skill-group wide">
-      <div class="sg-header">
-        <div class="sg-dot" style="background:var(--orange)"></div>
-        <span class="sg-title" style="color:var(--orange)">Infrastructure &amp; Tools</span>
-      </div>
-      <span class="skill-tag">Docker</span>
-      <span class="skill-tag">Google Cloud</span>
-      <span class="skill-tag">Linux</span>
-      <span class="skill-tag">Microservices</span>
-      <span class="skill-tag">Git / GitHub</span>
-      <span class="skill-tag">REST</span>
-      <span class="skill-tag">Swagger</span>
-      <span class="skill-tag">CI/CD</span>
+      <div class="sg-header"><div class="sg-dot" style="background:var(--orange)"></div><span class="sg-title" style="color:var(--orange)">Infrastructure &amp; Tools</span></div>
+      <span class="skill-tag">Docker</span><span class="skill-tag">Google Cloud</span><span class="skill-tag">Linux</span>
+      <span class="skill-tag">Microservices</span><span class="skill-tag">Git / GitHub</span><span class="skill-tag">REST</span>
+      <span class="skill-tag">Swagger</span><span class="skill-tag">CI/CD</span>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- ── Projects ──────────────────────────────────────── -->
 <section id="projects">
   <p class="section-label">selected projects</p>
-  <h2 class="section-title">
-    <span class="kw">def</span> <span class="fn">get_projects</span><span class="paren">():</span>
-  </h2>
+  <h2 class="section-title"><span class="kw">def</span> <span class="fn">get_projects</span><span class="paren">():</span></h2>
   <div class="projects-list">
     <div class="project-card">
       <div>
@@ -347,8 +404,7 @@ footer .py { color: var(--blue); }
           <li>Displays stats and details about recently shortened URLs</li>
         </ul>
         <div class="p-tags">
-          <span class="p-tag">Python</span><span class="p-tag">ReactJS</span>
-          <span class="p-tag">MD5 Hashing</span>
+          <span class="p-tag">Python</span><span class="p-tag">ReactJS</span><span class="p-tag">MD5 Hashing</span>
         </div>
       </div>
       <div class="p-arrow">↗</div>
@@ -356,13 +412,11 @@ footer .py { color: var(--blue); }
   </div>
 </section>
 
-<!-- EXPERIENCE -->
+<!-- ── Experience ────────────────────────────────────── -->
 <section id="experience">
   <p class="section-label">work experience</p>
-  <h2 class="section-title">
-    <span class="kw">career</span> <span class="fn">= []</span>
-  </h2>
-  <div>
+  <h2 class="section-title"><span class="kw">career</span> <span class="fn">= []</span></h2>
+  <div class="timeline">
     <div class="exp-item">
       <div class="exp-year">Apr 2023 —<br>Nov 2023</div>
       <div>
@@ -372,33 +426,62 @@ footer .py { color: var(--blue); }
           <li>Reduced test suite runtime by 50% by parallelizing the CI/CD pipeline, cutting release cycle time and computing costs.</li>
           <li>Eliminated unplanned downtime across multiple backend services by identifying and resolving critical memory leaks.</li>
           <li>Cut primary database load by implementing Redis LFU caching on high-frequency queries, improving API response times.</li>
-          <li>Delivered full CRUD REST APIs in Python/Django and authored Swagger docs accelerating frontend onboarding.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="exp-item">
-      <div class="exp-year">Mar 2022 —<br>Aug 2025</div>
-      <div>
-        <p class="exp-role">B.Sc. Computer Science</p>
-        <p class="exp-co"><span class="at">@</span> Vistula University, Warsaw</p>
-        <ul class="exp-bullets">
-          <li>Top 50% in Google Kickstart Round F 2022 globally, top 30% nationally.</li>
-          <li>Finalist at the National Collegiate Olympics in Informatics, Uzbekistan, January 2020.</li>
+          <li>Delivered full CRUD REST APIs in Python/Django and authored Swagger docs accelerating frontend engineer onboarding.</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ── Education ─────────────────────────────────────── -->
+<section id="education">
+  <p class="section-label">education</p>
+  <h2 class="section-title"><span class="kw">class</span> <span class="fn">Education</span><span class="paren">:</span></h2>
+  <div class="edu-card">
+    <div>
+      <p class="edu-degree">B.Sc. Computer Science</p>
+      <p class="edu-school"><span class="at">@</span> Vistula University, Warsaw, Poland</p>
+      <p class="edu-dates">March 2022 — August 2025 &nbsp;·&nbsp; Graduated</p>
+      <p class="edu-detail">Focused on distributed systems, backend architecture, and software engineering principles. Completed coursework covering algorithms, databases, operating systems, and networked applications.</p>
+    </div>
+    <div class="edu-gpa">
+      <div class="gpa-num">3.99</div>
+      <div class="gpa-lbl">GPA / 5.00</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Awards & Honours ──────────────────────────────── -->
+<section id="awards">
+  <p class="section-label">awards &amp; honours</p>
+  <h2 class="section-title"><span class="kw">yield</span> <span class="fn">achievements</span><span class="paren">()</span></h2>
+  <div class="awards-grid">
+    <div class="award-card">
+      <div class="award-icon">🌍</div>
+      <div>
+        <p class="award-title">Google Kickstart Round F 2022</p>
+        <p class="award-sub">Top 50% globally · Top 30% nationally<br>Competed against engineers worldwide</p>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">🏅</div>
+      <div>
+        <p class="award-title">National Collegiate Olympics in Informatics</p>
+        <p class="award-sub">Finalist · Uzbekistan · January 2020<br>Top competitive programming competition nationally</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ───────────────────────────────────────── -->
 <section id="contact">
   <div class="contact-box">
     <p class="section-label">get in touch</p>
     <h2 class="section-title"><span class="fn">collaborate</span><span class="paren">()</span></h2>
     <p class="contact-sub">Seeking backend or full-stack engineering roles. Open to remote and Warsaw-based opportunities.</p>
     <div class="contact-links">
-      <a href="mailto:saravarjuraev@gmail.com" class="c-link primary">✉ saravarjuraev@gmail.com</a>
-      <a href="https://github.com/sarvar2003" target="_blank" rel="noopener" class="c-link">⌥ GitHub</a>
+      <a href="mailto:saravarjuraev@gmail.com" class="c-link primary">&#9993; saravarjuraev@gmail.com</a>
+      <a href="https://github.com/sarvar2003" target="_blank" rel="noopener" class="c-link">&#9002; GitHub</a>
       <a href="https://www.linkedin.com/in/juraev-s/" target="_blank" rel="noopener" class="c-link">in LinkedIn</a>
     </div>
   </div>
@@ -406,9 +489,20 @@ footer .py { color: var(--blue); }
 
 </main>
 
-<footer>
-  <span class="py"># </span>Sarvarbek Juraev · Warsaw, Poland · 2026
-</footer>
+<footer><span class="py"># </span>Sarvarbek Juraev · Warsaw, Poland · 2026</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+</script>
 
 </body>
 </html>
